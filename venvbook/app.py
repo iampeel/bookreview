@@ -17,13 +17,11 @@ def home():
 # 리뷰 저장하기
 @app.route('/review', methods=['POST'])
 def write_review():
-    # 리뷰 저장하기
     # index.html의 makeRiview()로부터 입력된 data 받아오기
     title_receive = request.form['title_give']
     author_receive = request.form['author_give']
     review_receive = request.form['review_give']
 
-    # 리뷰 저장하기
     # db에 데이터 공간 만들기
     doc = {
         'title': title_receive,
@@ -31,11 +29,9 @@ def write_review():
         'review': review_receive
     }
 
-    # 리뷰 저장하기
     # db의 bookreview폴더에 데이터 저장
     db.bookreview.insert_one(doc)
 
-    # 리뷰 저장하기
     # 완료되면 나오는 alert메세지
     return jsonify({'msg': '이 요청은 POST!'})
 
@@ -44,9 +40,12 @@ def write_review():
 # 리뷰 보여주기
 @app.route('/review', methods=['GET'])
 def read_reviews():
-    sample_receive = request.args.get('sample_give')
-    print(sample_receive)
-    return jsonify({'msg': '이 요청은 GET!'})
+
+    # db에서 가져와서 reviews라는 변수에 담는다
+    reviews = list(db.bookreview.find({}, {'_id': False}))
+
+    # 담은 것을 all_reviews라는 이름으로 index.html로 보낸다
+    return jsonify({'all_reviews': reviews})
 
 
 if __name__ == '__main__':
