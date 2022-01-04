@@ -28,11 +28,25 @@
             showReview();
         });
 
+        // 리뷰 저장하기
         function makeReview() {
+            // 리뷰 저장하기
+            // 입력 받은 것을 변수에 대입
+            // title (임의 작성) = 이쪽은 아래 id값
+            let title = $('#title').val()
+            let author = $('#author').val()
+            let review = $('#bookReview').val()
+
+            // 리뷰 저장하기
+            // 화면에 입력받은 것을 app.py의 write_review()에서 가져가게 준비
             $.ajax({
                 type: "POST",
                 url: "/review",
-                data: { sample_give: '샘플데이터' },
+                // title_give (임의 작성) : title (함수 도입부분에 작성됨)
+                data: { title_give: title, author_give: author, review_give: review },
+                
+                // 리뷰 저장하기
+                // 성공하면 app.py의 write_review()에 정의되어 있는 msg메세지를 띄워라
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.reload();
